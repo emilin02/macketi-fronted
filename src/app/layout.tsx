@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header';
 import TopNav from '@/components/layout/TopNav';
 import Footer from '@/components/layout/Footer';
 import { CartProvider } from '@/context/CartContext';
+import { AuthProvider } from '@/context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -27,10 +28,12 @@ export default function RootLayout({
     <html lang="es" className={montserrat.variable}>
       <body className="flex flex-col min-h-screen">
         <CartProvider>
-          <Header />
-          <TopNav />
-          <main className="flex-1">{children}</main>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <TopNav />
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </AuthProvider>
         </CartProvider>
       </body>
     </html>

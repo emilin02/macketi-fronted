@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { ShoppingBag, ArrowLeft, ShieldCheck, Truck } from 'lucide-react';
 
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { useIsClient } from '@/hooks/useIsClient';
 import CartItemRow from '@/components/cart/CartItemRow';
 
@@ -21,6 +22,7 @@ export default function CartPage() {
   // HOOKS
   // ----------------------------------------------------------
   const { items, itemCount, subtotal, clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
   const isClient = useIsClient();
 
   // Estado de hidratación: evita hydration mismatch.
@@ -29,16 +31,6 @@ export default function CartPage() {
   // ----------------------------------------------------------
   // AGRUPACIÓN POR TIENDA
   // ----------------------------------------------------------
-  // Macketi es multivendedor: un carrito puede tener productos
-  // de varias tiendas. Los agrupamos por storeId para mostrarlos
-  // agrupados en la página, y más adelante generar sub-pedidos
-  // por tienda en el checkout.
-  //
-  // Estructura resultante:
-  // [
-  //   { storeId: 1, storeName: "Carefour", items: [...] },
-  //   { storeId: 2, storeName: "Farmacia Amanda", items: [...] },
-  // ]
   const groupedByStore = items.reduce<
     Array<{ storeId: number; storeName: string; items: typeof items }>
   >((groups, item) => {
@@ -175,12 +167,10 @@ export default function CartPage() {
               </span>
             </div>
 
-            {/* Envío (placeholder) */}
+            {/* Envío */}
             <div className="flex items-center justify-between mb-3 text-sm">
               <span className="text-gray-600">Envío</span>
-              <span className="text-gray-500 text-xs">
-                Calculado en el checkout
-              </span>
+              <span className="text-gray-500 text-xs">Por confirmar</span>
             </div>
 
             {/* Separador */}
@@ -194,17 +184,21 @@ export default function CartPage() {
               </span>
             </div>
 
-            {/* Botón finalizar compra (deshabilitado por ahora) */}
-            <button
-              disabled
-              className="w-full bg-macketi-yellow text-macketi-navy font-bold py-3 rounded-xl cursor-not-allowed opacity-60 mb-3"
-              title="Próximamente"
+            {/* Botón finalizar compra.
+                - Si el usuario está logueado → navega a /checkout.
+                - Si no está logueado → navega a /login. */}
+            <Link
+              href={isAuthenticated ? '/checkout' : '/login'}
+              className="w-full bg-macketi-yellow hover:bg-macketi-yellow-dark text-macketi-navy font-bold py-3 rounded-xl transition-colors mb-3 flex items-center justify-center gap-2"
             >
-              Finalizar compra
-            </button>
+              {isAuthenticated ? 'Finalizar compra' : 'Inicia sesión para comprar'}
+            </Link>
 
+            {/* Mensaje informativo según el estado del usuario */}
             <p className="text-xs text-center text-gray-500">
-              El checkout estará disponible próximamente.
+              {isAuthenticated
+                ? 'Pago contra entrega. El envío se confirma al recibir el pedido.'
+                : 'Necesitas una cuenta para finalizar la compra.'}
             </p>
 
             {/* Beneficios */}
