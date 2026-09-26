@@ -1,26 +1,49 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ===== COLORES OFICIALES DE MACKETI ===== */
+  --color-macketi-yellow: #FCE810;        /* Amarillo Principal */
+  --color-macketi-yellow-dark: #E5CF00;   /* Amarillo Oscuro */
+  --color-macketi-black: #1F1F1F;         /* Negro (texto principal) */
+  --color-macketi-gray: #E5E7EB;          /* Gris (fondos, bordes) */
+
+   /* Cian claro para la sección "Únete a Macketi" */
+  --color-macketi-cyan: #E0F7FA;
+
+   /* Azul marino para textos del HeroBanner */
+  --color-macketi-navy: #14235C;
+
+  /* Derivados útiles */
+  --color-macketi-yellow-light: #FFFBE0;  /* Fondo suave amarillo */
+  --color-macketi-gray-light: #F5F5F5;    /* Fondo de tarjetas */
+
+  /* Colores de las 4 verticales (fondos pastel) */
+  --color-vertical-tiendas: #E8EEFB;
+  --color-vertical-restaurantes: #FFF3E0;
+  --color-vertical-supermercados: #E8F5E9;
+  --color-vertical-farmacias: #F3E5F5;
+
+  /* ===== TIPOGRAFÍA: MONTSERRAT ===== */
+  --font-sans: var(--font-montserrat), system-ui, sans-serif;
+
+  /* ===== RADIOS ===== */
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ===== ESTILOS BASE ===== */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: var(--color-macketi-black);
+  font-family: var(--font-sans);
+}
+
+/* Scroll horizontal suave para carruseles */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
