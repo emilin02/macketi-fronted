@@ -1,17 +1,18 @@
+
 'use client';
 
 // ============================================================
 // PÁGINA DE ÉXITO DEL PEDIDO
 // ============================================================
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, Package, ArrowRight } from 'lucide-react';
 
 import { useIsClient } from '@/hooks/useIsClient';
 
-
-export default function CheckoutSuccessPage() {
+function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const isClient = useIsClient();
 
@@ -31,6 +32,7 @@ export default function CheckoutSuccessPage() {
       <h1 className="text-2xl md:text-3xl font-extrabold text-macketi-navy mb-3">
         ¡Pedido confirmado!
       </h1>
+
       <p className="text-gray-500 mb-8">
         Tu pedido ha sido registrado correctamente. El vendedor se pondrá en contacto contigo para confirmar la entrega.
       </p>
@@ -43,6 +45,7 @@ export default function CheckoutSuccessPage() {
             {orderIds.length === 1 ? 'Pedido' : 'Pedidos'} creado{orderIds.length > 1 ? 's' : ''}
           </h2>
         </div>
+
         <div className="flex flex-wrap gap-2 justify-center">
           {orderIds.map((id) => (
             <span
@@ -72,5 +75,17 @@ export default function CheckoutSuccessPage() {
       </div>
 
     </div>
+  );
+}
+
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+        Verificando tu pedido...
+      </div>
+    }>
+      <CheckoutSuccessContent />
+    </Suspense>
   );
 }

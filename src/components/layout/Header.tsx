@@ -95,7 +95,7 @@ export default function Header() {
           ============================================================ */}
           <Link href="/" className="flex-shrink-0">
             <Image
-              src="/logo-full.png"
+              src="/Macketi_logo_full_v2.png"
               alt="Macketi"
               width={140}
               height={40}
